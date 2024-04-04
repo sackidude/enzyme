@@ -26,7 +26,7 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes>
                     <Route path="" view=HomePage/>
-                    <Route path="signin" view=SignIn/>
+                    <Route path="login" view=Login/>
                 </Routes>
             </main>
             <footer>
@@ -47,7 +47,7 @@ fn Navigation() -> impl IntoView {
 
             <ul>
                 <li>
-                    <a href="/signin">"Sign in"</a>
+                    <a href="/login">"Sign in"</a>
                 </li>
                 <li>
                     <a href="/signup">"Sign up"</a>
@@ -151,9 +151,9 @@ fn Pros() -> impl IntoView {
 
 // Sign in related
 #[component]
-fn SignIn() -> impl IntoView {
+fn Login() -> impl IntoView {
     view! {
-        <div class="signin">
+        <div class="login">
             <img src="logo.svg" alt=""/>
             <h1>"Sign in to Enzyme"</h1>
             <form class="inputbox" action="/login" method="POST">
@@ -164,7 +164,7 @@ fn SignIn() -> impl IntoView {
                 <div class="password-wrapper">
                     <label for="password">
                         <b> "Password"</b> <br/>
-                        <input type="text" name="password" required/>
+                        <input type="password" name="password" required/>
                     </label>
                     <a href="/forgotpassword">"Forgot password?"</a>
                 </div>

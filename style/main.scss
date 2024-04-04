@@ -174,7 +174,7 @@ main {
     border-radius: 1rem;
   }
 
-  .signin {
+  .login {
     padding-top: 2rem;
     img {
       margin-inline: auto;
@@ -215,7 +215,8 @@ main {
         background-color: var(--clr-accent-400);
         color: var(--clr-primary-700);
       }
-      input[type="submit"]:hover {
+      input[type="submit"]:hover,
+      input[type="submit"]:focus {
         background-color: var(--clr-accent-200);
       }
     }
