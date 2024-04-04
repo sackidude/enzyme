@@ -26,6 +26,7 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes>
                     <Route path="" view=HomePage/>
+                    <Route path="signin" view=SignIn/>
                 </Routes>
             </main>
             <footer>
@@ -40,8 +41,8 @@ pub fn App() -> impl IntoView {
 fn Navigation() -> impl IntoView {
     view! {
         <nav>
-            <a href="/">
-                <img src="/logo.svg" alt="book logo"/>
+            <a href="/" aria-label="homepage">
+                <img src="/logo.svg" alt=""/>
             </a>
 
             <ul>
@@ -57,12 +58,15 @@ fn Navigation() -> impl IntoView {
     }
 }
 
+// Homepage related
 #[component]
 fn HomePage() -> impl IntoView {
     view! {
-        <Intro/>
-        <SearchBar/>
-        <Pros/>
+        <div class="homepage">
+            <Intro/>
+            <SearchBar/>
+            <Pros/>
+        </div>
     }
 }
 
@@ -140,6 +144,36 @@ fn Pros() -> impl IntoView {
                 <p>"Potent#EUW"</p>
                 <p>"Potent#EUW"</p>
                 <p>"Potent#EUW"</p>
+            </div>
+        </div>
+    }
+}
+
+// Sign in related
+#[component]
+fn SignIn() -> impl IntoView {
+    view! {
+        <div class="signin">
+            <img src="logo.svg" alt=""/>
+            <h1>"Sign in to Enzyme"</h1>
+            <form class="inputbox" action="/login" method="POST">
+                <label for="username">
+                    <b>"Username"</b> <br/>
+                    <input type="text" name="username" required/>
+                </label>
+                <div class="password-wrapper">
+                    <label for="password">
+                        <b> "Password"</b> <br/>
+                        <input type="text" name="password" required/>
+                    </label>
+                    <a href="/forgotpassword">"Forgot password?"</a>
+                </div>
+                <input type="submit" value="Sign in"/>
+            </form>
+
+            <div class="create-account inputbox">
+                <p>"New to Enzyme?"</p>
+                <a href="/signup">"Create a profile"</a>
             </div>
         </div>
     }
