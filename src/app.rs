@@ -21,22 +21,9 @@ pub fn App() -> impl IntoView {
             view! { <ErrorTemplate outside_errors/> }.into_view()
         }>
             <header>
-                <nav>
-                    <img src="/logo.svg" alt="book logo"/>
-
-                    <ul>
-                        <li>
-                            <a href="/signin">"Sign in"</a>
-                        </li>
-                        <li>
-                            <a href="/signup">"Sign up"</a>
-                        </li>
-                    </ul>
-
-                </nav>
+                <Navigation/>
             </header>
             <main>
-
                 <Routes>
                     <Route path="" view=HomePage/>
                 </Routes>
@@ -49,21 +36,111 @@ pub fn App() -> impl IntoView {
     }
 }
 
-/// Renders the home page of your application.
 #[component]
-fn HomePage() -> impl IntoView {
-    // Creates a reactive value to update the button
-    let (count, set_count) = create_signal(0);
-    let on_click = move |_| set_count.update(|count| *count += 1);
-
+fn Navigation() -> impl IntoView {
     view! {
-        <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
+        <nav>
+            <a href="/">
+                <img src="/logo.svg" alt="book logo"/>
+            </a>
+
+            <ul>
+                <li>
+                    <a href="/signin">"Sign in"</a>
+                </li>
+                <li>
+                    <a href="/signup">"Sign up"</a>
+                </li>
+            </ul>
+
+        </nav>
     }
 }
 
-/// Renders the home page of your application.
 #[component]
-fn Navigation() -> impl IntoView {
-    view! {}
+fn HomePage() -> impl IntoView {
+    view! {
+        <Intro/>
+        <SearchBar/>
+        <Pros/>
+    }
+}
+
+#[component]
+fn Intro() -> impl IntoView {
+    view! {
+        <div class="intro">
+            <img src="logo.svg" alt=""/>
+            <h1>"Enzyme"</h1>
+            <p>
+                "Accelerate your learning with reviews and note taking, the most proven
+                learning method."
+            </p>
+        </div>
+    }
+}
+
+#[component]
+fn SearchBar() -> impl IntoView {
+    view! {
+        <div class="searchbar">
+            <form action="/search" method="get">
+                <img src="search-glass.svg" alt="search for account"/>
+                <input
+                    type="text"
+                    name="account"
+                    placeholder="Search for an account"
+                />
+            </form>
+        </div>
+    }
+}
+
+#[component]
+fn Pros() -> impl IntoView {
+    view! {
+        <div class="pros">
+            <h2>"Check out and review some pros"</h2>
+            <div class="role">
+                <h3>"Top"</h3>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+            </div>
+            <div class="role">
+                <h3>"Jungle"</h3>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+            </div>
+            <div class="role">
+                <h3>"Middle"</h3>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+            </div>
+            <div class="role">
+                <h3>"Bottom"</h3>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+            </div>
+            <div class="role">
+                <h3>"Support"</h3>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+                <p>"Potent#EUW"</p>
+            </div>
+        </div>
+    }
 }
