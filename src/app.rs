@@ -9,29 +9,42 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     view! {
-
-
-        // injects a stylesheet into the document <head>
-        // id=leptos means cargo-leptos will hot-reload this stylesheet
         <Stylesheet id="leptos" href="/pkg/enzyme.css"/>
 
         // sets the document title
-        <Title text="Welcome to Leptos"/>
+        <Title text="Enzyme"/>
 
         // content for this welcome page
         <Router fallback=|| {
             let mut outside_errors = Errors::default();
             outside_errors.insert_with_default_key(AppError::NotFound);
-            view! {
-                <ErrorTemplate outside_errors/>
-            }
-            .into_view()
+            view! { <ErrorTemplate outside_errors/> }.into_view()
         }>
+            <header>
+                <nav>
+                    <img src="/logo.svg" alt="book logo"/>
+
+                    <ul>
+                        <li>
+                            <a href="/signin">"Sign in"</a>
+                        </li>
+                        <li>
+                            <a href="/signup">"Sign up"</a>
+                        </li>
+                    </ul>
+
+                </nav>
+            </header>
             <main>
+
                 <Routes>
                     <Route path="" view=HomePage/>
                 </Routes>
             </main>
+            <footer>
+                <h2>"Enzyme league journal"</h2>
+            </footer>
+
         </Router>
     }
 }
@@ -47,4 +60,10 @@ fn HomePage() -> impl IntoView {
         <h1>"Welcome to Leptos!"</h1>
         <button on:click=on_click>"Click Me: " {count}</button>
     }
+}
+
+/// Renders the home page of your application.
+#[component]
+fn Navigation() -> impl IntoView {
+    view! {}
 }
