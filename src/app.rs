@@ -30,7 +30,7 @@ pub fn App() -> impl IntoView {
                 </Routes>
             </main>
             <footer>
-                <h2>"Enzyme league journal"</h2>
+                <Footer />
             </footer>
 
         </Router>
@@ -58,6 +58,22 @@ fn Navigation() -> impl IntoView {
     }
 }
 
+#[component]
+fn Footer() -> impl IntoView {
+    view! {
+        <div class="copyright">
+            <h2>"Enzyme"</h2>
+            <p>"© 2024"</p>
+        </div>
+        <div class="vertical-line"></div>
+        <div class="links">
+            <a href="/privacy">"Privacy"</a>
+            <a href="/contact">"Contact"</a>
+            <a href="/TOS">TOS</a>
+            <a href="/about">"About"</a>
+        </div>
+    }
+}
 // Homepage related
 #[component]
 fn HomePage() -> impl IntoView {
