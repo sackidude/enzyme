@@ -166,27 +166,24 @@ main {
     }
 
     .searchbar {
-      display: flex;
-      width: auto;
-      justify-content: center;
-
-      margin-bottom: 10rem;
-
       form {
-        background-color: var(--clr-primary-500);
-        display: grid;
-        grid-template-columns: repeat(2, auto);
-        justify-content: center;
+        width: min(max(350px, 50%), 550px);
+        margin: auto;
 
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-content: start;
+
+        background-color: var(--clr-primary-500);
         padding: 0.5rem 1rem;
         border-radius: 100vh;
+
         img {
           max-width: 35px;
         }
         input {
           border: none;
           background-color: var(--clr-primary-500);
-          width: 20rem;
           padding-left: 1rem;
         }
         input:hover,
