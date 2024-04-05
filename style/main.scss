@@ -60,10 +60,11 @@ body {
   min-height: 100vh; /* This breaks mobile? */
   position: relative;
 }
+
 header {
   nav {
     display: grid;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: auto auto;
     align-items: center;
     justify-content: space-between;
 
@@ -76,18 +77,25 @@ header {
 
     ul {
       display: flex;
-      grid-template-columns: auto auto;
       list-style: none;
-      justify-content: flex-end;
+      @media screen and (min-width: 500px) {
+        gap: 1rem;
+      }
 
       li {
         a {
-          padding: 0.5rem 2rem;
-          margin-left: 1rem; /* Kind of yanky but w.e. */
           border: 0.125rem solid;
           border-radius: 0.5rem;
           color: var(--clr-black);
           text-decoration: none;
+          padding: 0.5rem 2rem;
+        }
+        .signup {
+          display: none;
+
+          @media screen and (min-width: 500px) {
+            display: inline;
+          }
         }
       }
     }
