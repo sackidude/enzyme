@@ -105,7 +105,7 @@ fn SearchBar() -> impl IntoView {
     view! {
         <div class="searchbar">
             <form action="/search" method="get">
-                <img src="search-glass.svg" alt="search for account"/>
+                <img src="search-glass.svg" alt=""/>
                 <input
                     type="text"
                     name="account"
@@ -123,43 +123,55 @@ fn Pros() -> impl IntoView {
             <h2>"Check out and review some pros"</h2>
             <div class="role">
                 <h3>"Top"</h3>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
+                <ul>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                </ul>
             </div>
             <div class="role">
                 <h3>"Jungle"</h3>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
+                <ul>
+                <li>"Potent#EUW"</li>
+                <li>"Potent#EUW"</li>
+                <li>"Potent#EUW"</li>
+                <li>"Potent#EUW"</li>
+                <li>"Potent#EUW"</li>
+            </ul>
+
             </div>
             <div class="role">
                 <h3>"Middle"</h3>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
+                <ul>
+                <li>"Potent#EUW"</li>
+                <li>"Potent#EUW"</li>
+                <li>"Potent#EUW"</li>
+                <li>"Potent#EUW"</li>
+                <li>"Potent#EUW"</li>
+            </ul>
+
             </div>
             <div class="role">
                 <h3>"Bottom"</h3>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
+                <ul>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                </ul>
             </div>
             <div class="role">
                 <h3>"Support"</h3>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
-                <p>"Potent#EUW"</p>
+                <ul>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                </ul>
             </div>
         </div>
     }

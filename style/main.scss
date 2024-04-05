@@ -176,6 +176,10 @@ main {
           width: 20rem;
           padding-left: 1rem;
         }
+        input:hover,
+        input:focus {
+          outline: none;
+        }
       }
     }
 
@@ -198,6 +202,10 @@ main {
         h3 {
           text-align: center;
           margin-bottom: 1rem;
+        }
+
+        ul {
+          list-style: none;
         }
       }
     }
