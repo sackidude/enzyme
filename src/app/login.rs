@@ -8,12 +8,14 @@ pub fn Login() -> impl IntoView {
             <h1>"Sign in to Enzyme"</h1>
             <form class="inputbox" action="/login" method="POST">
                 <label for="username">
-                    <b>"Username"</b> <br/>
+                    <b>"Username"</b>
+                    <br/>
                     <input type="text" name="username" required/>
                 </label>
                 <div class="password-wrapper">
                     <label for="password">
-                        <b> "Password"</b> <br/>
+                        <b>"Password"</b>
+                        <br/>
                         <input type="password" name="password" required/>
                     </label>
                     <a href="/forgotpassword">"Forgot password?"</a>

@@ -18,23 +18,23 @@ pub fn Pros() -> impl IntoView {
             <div class="role">
                 <h3>"Jungle"</h3>
                 <ul>
-                <li>"Potent#EUW"</li>
-                <li>"Potent#EUW"</li>
-                <li>"Potent#EUW"</li>
-                <li>"Potent#EUW"</li>
-                <li>"Potent#EUW"</li>
-            </ul>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                </ul>
 
             </div>
             <div class="role">
                 <h3>"Middle"</h3>
                 <ul>
-                <li>"Potent#EUW"</li>
-                <li>"Potent#EUW"</li>
-                <li>"Potent#EUW"</li>
-                <li>"Potent#EUW"</li>
-                <li>"Potent#EUW"</li>
-            </ul>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                    <li>"Potent#EUW"</li>
+                </ul>
 
             </div>
             <div class="role">

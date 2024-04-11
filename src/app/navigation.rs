@@ -10,10 +10,14 @@ pub fn Navigation() -> impl IntoView {
 
             <ul>
                 <li>
-                    <a href="/login" class="login">"Login"</a>
+                    <a href="/login" class="login">
+                        "Login"
+                    </a>
                 </li>
                 <li>
-                    <a href="/signup" class="signup">"Sign up"</a>
+                    <a href="/signup" class="signup">
+                        "Sign up"
+                    </a>
                 </li>
             </ul>
 
