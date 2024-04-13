@@ -55,12 +55,6 @@ h6 {
   --clr-accent-200: #30883a;
 }
 
-/* Styling */
-body {
-  min-height: 100vh; /* This breaks mobile? */
-  position: relative;
-}
-
 header {
   nav {
     display: grid;
@@ -103,8 +97,6 @@ header {
 }
 
 footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   background-color: var(--clr-primary-500);
   display: grid;
