@@ -1,10 +1,15 @@
-mod navigation;
+mod account;
 mod footer;
 mod homepage;
 mod login;
-mod account;
+mod navigation;
 
-use crate::{app::{footer::Footer, homepage::HomePage, login::Login, navigation::Navigation}, error_template::{AppError, ErrorTemplate}};
+use crate::{
+    app::{
+        account::Account, footer::Footer, homepage::HomePage, login::Login, navigation::Navigation,
+    },
+    error_template::{AppError, ErrorTemplate},
+};
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
@@ -33,10 +38,7 @@ pub fn App() -> impl IntoView {
                 <Routes>
                     <Route path="" view=HomePage/>
                     <Route path="login" view=Login/>
-                    <Route path="account" view=account::wrapper>
-                        <Route path="" view=account::default/>
-                        <Route path=":name" view=account::account/>
-                    </Route>
+                    <Route path="account" view=Account/>
                 </Routes>
             </main>
             <footer>
