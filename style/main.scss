@@ -170,9 +170,7 @@ main {
         width: min(max(350px, 50%), 550px);
         margin: auto;
 
-        display: grid;
-        grid-template-columns: auto auto;
-        justify-content: start;
+        display: flex;
 
         background-color: var(--clr-primary-500);
         padding: 0.5rem 1rem;
@@ -185,6 +183,7 @@ main {
           border: none;
           background-color: var(--clr-primary-500);
           padding-left: 1rem;
+          flex-grow: 1;
         }
         input:hover,
         input:focus {
@@ -194,8 +193,9 @@ main {
     }
 
     .pros {
+      margin-top: min(max(9rem, 15vw), 20rem);
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: 1fr;
       gap: 1rem;
 
       h2 {
@@ -205,17 +205,32 @@ main {
 
       .role {
         padding: 1rem;
-        background-color: var(--clr-primary-500);
 
-        border-radius: 1rem 1rem 0 0;
+        display: flex;
+        justify-content: space-between;
+
+        border-radius: 100vw;
+        background-color: var(--clr-primary-500);
 
         h3 {
           text-align: center;
-          margin-bottom: 1rem;
+          font-weight: 400;
         }
 
         ul {
           list-style: none;
+
+          ::after {
+            content: "";
+            display: inline;
+            width: 10px;
+            background-color: var(--clr-black);
+            aspect-ratio: 1;
+          }
+
+          li {
+            display: none;
+          }
         }
       }
     }
