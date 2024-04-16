@@ -1,11 +1,27 @@
 #[cfg(feature = "ssr")]
+mod ssr;
+
+#[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
+    use crate::ssr::db;
     use axum::Router;
+    use dotenv::dotenv;
     use enzyme::app::*;
     use enzyme::fileserv::file_and_error_handler;
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
+
+    // Some setup
+    dotenv().ok();
+
+    let pool = db().await.expect("couldn't connect to database");
+
+    sqlx::migrate!("./migrations")
+        .run(&pool)
+        .await
+        .expect("couldn't migrate database");
+    logging::log!("migrated database");
 
     // Setting get_configuration(None) means we'll be using cargo-leptos's env values
     // For deployment these variables are:
