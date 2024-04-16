@@ -55,6 +55,13 @@ h6 {
   --clr-accent-200: #30883a;
 }
 
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
 header {
   nav {
     display: grid;
@@ -130,6 +137,7 @@ footer {
 }
 
 main {
+  flex-grow: 1;
   padding-inline: 1rem;
   /* Homepage */
   .homepage {
