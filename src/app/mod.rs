@@ -6,7 +6,8 @@ mod navigation;
 
 use crate::{
     app::{
-        account::Account, footer::Footer, homepage::HomePage, login::Login, navigation::Navigation,
+        account::AccountPage, footer::Footer, homepage::HomePage, login::Login,
+        navigation::Navigation,
     },
     error_template::{AppError, ErrorTemplate},
 };
@@ -38,7 +39,7 @@ pub fn App() -> impl IntoView {
                 <Routes>
                     <Route path="" view=HomePage/>
                     <Route path="login" view=Login/>
-                    <Route path="account" view=Account/>
+                    <Route path="account" view=AccountPage/>
                 </Routes>
             </main>
             <footer>
