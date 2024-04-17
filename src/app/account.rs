@@ -42,18 +42,29 @@ pub fn AccountPage() -> impl IntoView {
     view! {
         <section class="account-viewer">
             // handles the loading
-            <Suspense fallback=move || view! {<p>"Loading User"</p> }>
+            <Suspense fallback=move || view! { <p>"Loading User"</p> }>
                 // handles the error from the resource
-                <ErrorBoundary fallback=|_| {view! {<p>"Something went wrong"</p>}}>
+                <ErrorBoundary fallback=|_| {
+                    view! { <p>"Something went wrong"</p> }
+                }>
                     {move || {
-                        account.get().map(move |x| {
-                            // the resource has a result
-                            x.map(move |y| {
-                                // successful call from the server fn
-                                view! {<p>"User result filled in server and client: "{y.in_game_name}</p>}
+                        account
+                            .get()
+                            .map(move |account| {
+                                account
+                                    .map(move |account| {
+                                        view! {
+                                            // the resource has a result
+                                            // successful call from the server fn
+                                            <p>
+                                                "User result filled in server and client: "
+                                                {account.in_game_name}
+                                            </p>
+                                        }
+                                    })
                             })
-                        })
                     }}
+
                 </ErrorBoundary>
             </Suspense>
         </section>
