@@ -1,14 +1,11 @@
 #[cfg(feature = "ssr")]
-mod ssr;
-
-#[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use crate::ssr::db;
     use axum::Router;
     use dotenv::dotenv;
     use enzyme::app::*;
     use enzyme::fileserv::file_and_error_handler;
+    use enzyme::ssr::db;
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
 

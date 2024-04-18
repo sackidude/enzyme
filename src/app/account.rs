@@ -1,5 +1,3 @@
-use std::marker::PhantomData;
-
 use leptos::*;
 use leptos_router::use_query_map;
 use serde::{Deserialize, Serialize};
@@ -16,21 +14,28 @@ enum Region {
 #[cfg_attr(feature = "ssr", derive(sqlx::FromRow))]
 pub struct Account {
     in_game_name: String,
-    region: Region,
-    tag: String, // Maybe this should be something different as it can only be 4 char long
+    region: String, // TODO!: make this of type Region
+    tag: String,    // Maybe this should be something different as it can only be 4 char long
 }
 
-#[server(GetAccount)]
+#[server]
 async fn get_account(name: String) -> Result<Account, ServerFnError> {
+    use crate::ssr::db;
     logging::log!("get_account: name={}", &name);
-    // fake API delay
-    std::thread::sleep(std::time::Duration::from_millis(1250));
 
-    Ok(Account {
-        in_game_name: name,
-        region: Region::EUW,
-        tag: "spec".into(),
-    })
+    let pool = db().await.unwrap();
+    // TODO!: Check if "unchecked" is necessary
+    // I think so because region is enum
+    let account = sqlx::query_as_unchecked!(
+        Account,
+        "SELECT \"in_game_name\", \"region\", \"tag\" FROM account WHERE in_game_name=$1",
+        name
+    )
+    .fetch_optional(&pool)
+    .await?
+    .ok_or(ServerFnError::new("couldn't find account"))?; // TODO!: Better error with statuscode.
+
+    Ok(account)
 }
 
 #[component]
@@ -50,11 +55,11 @@ fn ErrorProfile() -> impl IntoView {
 #[component]
 pub fn AccountPage() -> impl IntoView {
     let params = use_query_map();
-    let account_name =
-        move || params.with(|params| params.get("name").cloned().unwrap_or_default());
-    // let account_name = params.get("name").cloned();
 
-    let account = create_resource(|| (), |_| async { get_account("test".into()).await });
+    let account = create_resource(
+        move || params.get().get("name").cloned().unwrap_or_default(),
+        move |account_name| async move { get_account(account_name).await },
+    );
     view! {
         <section class="account-viewer">
             // handles the loading
