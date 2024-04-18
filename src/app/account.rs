@@ -2,6 +2,8 @@ use leptos::*;
 use leptos_router::use_query_map;
 use serde::{Deserialize, Serialize};
 
+use crate::error_template::ErrorTemplate;
+
 #[derive(Serialize, Deserialize, Clone, Debug)]
 #[cfg_attr(feature = "ssr", derive(sqlx::Type))]
 enum Region {
@@ -32,23 +34,18 @@ pub struct Account {
 }
 
 #[server]
-async fn get_account(name: String) -> Result<Account, ServerFnError> {
+async fn get_account(name: String) -> Result<Option<Account>, ServerFnError> {
     use crate::ssr::db;
     logging::log!("get_account: name={}", &name);
 
     let pool = db().await.unwrap();
-    // TODO!: Check if "unchecked" is necessary
-    // I think so because region is enum
-    let account = sqlx::query_as_unchecked!(
+    Ok(sqlx::query_as!(
         Account,
-        "SELECT \"in_game_name\", \"region\" as Region, \"tag\" FROM account WHERE in_game_name=$1",
+        "SELECT \"in_game_name\", \"region\" as \"region: _\", \"tag\" FROM account WHERE in_game_name=$1",
         name
     )
     .fetch_optional(&pool)
-    .await?
-    .ok_or(ServerFnError::new("couldn't find account"))?; // TODO!: Better error with statuscode.
-
-    Ok(account)
+    .await?)
 }
 
 #[component]
@@ -58,11 +55,7 @@ fn LoadingProfile() -> impl IntoView {
 
 #[component]
 fn ErrorProfile() -> impl IntoView {
-    view! {
-        <p>
-            "Something went wrong, probably: Couldn't find that account, please try again."
-        </p>
-    }
+    view! { <p>"Something went wrong."</p> }
 }
 
 #[component]
@@ -78,10 +71,16 @@ pub fn AccountPage() -> impl IntoView {
             // handles the loading
             <Suspense fallback=LoadingProfile>
                 // handles the error from the resource
-                <ErrorBoundary fallback=|_| {
+                <ErrorBoundary fallback=|errors| {
                     view! {
-                        // FIXME: Simplify this, ie dont wrap in view macro and ignore _.
-                        <ErrorProfile/>
+                        // FIXME!: This doesn't work results in the following error when activated:
+                        // Errors: []
+                        // thread '<unnamed>' panicked at src/error_template.rs:53:39:
+                        // index out of bounds: the len is 0 but the index is 0
+                        // note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+                        // 
+                        // I think it has to do with the error being ServerFnError and not this project error::Error
+                        <ErrorTemplate errors=errors/>
                     }
                 }>
                     {move || {
@@ -90,14 +89,17 @@ pub fn AccountPage() -> impl IntoView {
                             .map(move |account| {
                                 account
                                     .map(move |account| {
-                                        view! {
-                                            // the resource has a result and successful call from the server fn
-                                            <p>
-                                                "User result filled in server and client: "
-                                                {account.in_game_name}
-                                                {account.region.to_str()}
-                                                {account.tag}
-                                            </p>
+                                        match account {
+                                            None => view! { <p>"Couldn't find that account"</p> },
+                                            Some(account) => {
+                                                view! {
+                                                    // the resource has a result and successful call from the server fn
+                                                    <p>
+                                                        "Account viewer: " {account.in_game_name}
+                                                        {account.region.to_str()} {account.tag}
+                                                    </p>
+                                                }
+                                            }
                                         }
                                     })
                             })
