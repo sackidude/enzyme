@@ -3,6 +3,7 @@ use leptos_router::use_query_map;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+#[cfg_attr(feature = "ssr", derive(sqlx::Type))]
 enum Region {
     EUW,
     EUNE,
@@ -10,12 +11,24 @@ enum Region {
     NA,
 }
 
+impl Region {
+    fn to_str(&self) -> String {
+        match self {
+            Region::EUW => "EUW",
+            Region::EUNE => "EUNE",
+            Region::KR => "KR",
+            Region::NA => "NA",
+        }
+        .into()
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug)]
 #[cfg_attr(feature = "ssr", derive(sqlx::FromRow))]
 pub struct Account {
     in_game_name: String,
-    region: String, // TODO!: make this of type Region
-    tag: String,    // Maybe this should be something different as it can only be 4 char long
+    region: Region,
+    tag: String, // Maybe this should be something different as it can only be 4 char long
 }
 
 #[server]
@@ -28,7 +41,7 @@ async fn get_account(name: String) -> Result<Account, ServerFnError> {
     // I think so because region is enum
     let account = sqlx::query_as_unchecked!(
         Account,
-        "SELECT \"in_game_name\", \"region\", \"tag\" FROM account WHERE in_game_name=$1",
+        "SELECT \"in_game_name\", \"region\" as Region, \"tag\" FROM account WHERE in_game_name=$1",
         name
     )
     .fetch_optional(&pool)
@@ -82,6 +95,8 @@ pub fn AccountPage() -> impl IntoView {
                                             <p>
                                                 "User result filled in server and client: "
                                                 {account.in_game_name}
+                                                {account.region.to_str()}
+                                                {account.tag}
                                             </p>
                                         }
                                     })
