@@ -34,7 +34,7 @@ pub struct Account {
 }
 
 #[server]
-async fn get_account(name: String) -> Result<Option<Account>, ServerFnError> {
+async fn get_account(name: String) -> Result<Account, ServerFnError<GetAccountError>> {
     use crate::ssr::db;
     logging::log!("get_account: name={}", &name);
 
@@ -45,8 +45,32 @@ async fn get_account(name: String) -> Result<Option<Account>, ServerFnError> {
         name
     )
     .fetch_optional(&pool)
-    .await?)
+    .await
+    .map_err(|_| GetAccountError::DatabaseError)?
+    .ok_or(GetAccountError::NotFound)?)
 }
+
+#[derive(Debug, Clone, strum::Display, strum::EnumString, Serialize, Deserialize)]
+pub enum GetAccountError {
+    InvalidForm,
+    NotFound,
+    DatabaseError,
+    InternalServerError,
+}
+
+impl IntoView for GetAccountError {
+    fn into_view(self) -> View {
+        match self {
+            // TODO!: Better explanation for this error ie how it shoudl look
+            GetAccountError::InvalidForm => view! {"Invalid input, please try again!"},
+            GetAccountError::NotFound => view! {"Account not found, please try again!"},
+            _ => view! {"Internal server error, please try again!"},
+        }
+        .into_view()
+    }
+}
+
+impl std::error::Error for GetAccountError {}
 
 #[component]
 fn LoadingProfile() -> impl IntoView {
@@ -73,36 +97,22 @@ pub fn AccountPage() -> impl IntoView {
                 // handles the error from the resource
                 <ErrorBoundary fallback=|errors| {
                     view! {
-                        // FIXME!: This doesn't work results in the following error when activated:
-                        // Errors: []
-                        // thread '<unnamed>' panicked at src/error_template.rs:53:39:
-                        // index out of bounds: the len is 0 but the index is 0
-                        // note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
-                        // 
-                        // I think it has to do with the error being ServerFnError and not this project error::Error
                         <ErrorTemplate errors=errors/>
                     }
                 }>
-                    {move || {
-                        account
-                            .get()
-                            .map(move |account| {
-                                account
-                                    .map(move |account| {
-                                        match account {
-                                            None => view! { <p>"Couldn't find that account"</p> },
-                                            Some(account) => {
-                                                view! {
-                                                    // the resource has a result and successful call from the server fn
-                                                    <p>
-                                                        "Account viewer: " {account.in_game_name}
-                                                        {account.region.to_str()} {account.tag}
-                                                    </p>
-                                                }
-                                            }
-                                        }
-                                    })
+                    {move ||{
+                        account.get().map(|account|{
+                            account.map_err(|e| {
+                                match e {
+                                    ServerFnError::WrappedServerError(e) => e,
+                                    _ => GetAccountError::InternalServerError,
+                                }
+                            }).map(|account| {
+                                view!{
+                                    <p>"Account is: "{account.in_game_name} {account.region.to_str()} {account.tag}</p>
+                                }
                             })
+                        })
                     }}
 
                 </ErrorBoundary>
