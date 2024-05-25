@@ -1,17 +1,24 @@
 use http::status::StatusCode;
 use leptos::*;
-use thiserror::Error;
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, Error)]
+#[derive(Clone, Debug, strum::Display, strum::EnumString, Serialize, Deserialize)]
 pub enum AppError {
-    #[error("Not Found")]
     NotFound,
+    InternalServerError,
+    InvalidInput,
+    AccountNotFound,
 }
+
+impl std::error::Error for AppError {}
 
 impl AppError {
     pub fn status_code(&self) -> StatusCode {
         match self {
             AppError::NotFound => StatusCode::NOT_FOUND,
+            AppError::InternalServerError => StatusCode::INTERNAL_SERVER_ERROR,
+            AppError::InvalidInput => StatusCode::BAD_REQUEST,
+            AppError::AccountNotFound => StatusCode::NOT_FOUND,
         }
     }
 }

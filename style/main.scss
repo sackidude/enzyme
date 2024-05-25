@@ -55,10 +55,11 @@ h6 {
   --clr-accent-200: #30883a;
 }
 
-/* Styling */
 body {
-  min-height: 100vh; /* This breaks mobile? */
-  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
 header {
@@ -103,8 +104,6 @@ header {
 }
 
 footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   background-color: var(--clr-primary-500);
   display: grid;
@@ -138,6 +137,7 @@ footer {
 }
 
 main {
+  flex-grow: 1;
   padding-inline: 1rem;
   /* Homepage */
   .homepage {
