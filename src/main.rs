@@ -7,6 +7,14 @@ async fn main() {
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
 
+    dotenv::dotenv().ok();
+
+    let database_url = std::env::var("DATABASE_URL").unwrap();
+    println!("{}", database_url);
+
+    let pool = sqlx::postgres::PgPool::connect(&database_url)
+        .await
+        .expect("failect to connect to database");
     // Setting get_configuration(None) means we'll be using cargo-leptos's env values
     // For deployment these variables are:
     // <https://github.com/leptos-rs/start-axum#executing-a-server-on-a-remote-machine-without-the-toolchain>
